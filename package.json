@@ -1,7 +1,7 @@
 {
   "name": "@pieceowater-dev/lotof.lib.broadcaster",
   "version": "1.0.0",
-  "description": "Hello world",
+  "description": "Broadcasting library",
   "repository": {
     "type": "git",
     "url": "https://github.com/pieceowater-dev/lotof.lib.broadcaster.git"
