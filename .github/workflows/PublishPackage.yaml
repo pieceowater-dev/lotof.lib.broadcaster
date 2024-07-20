@@ -1,6 +1,5 @@
 name: Publish package to NPM
-#permissions:
-#  contents: write
+
 on:
   push:
     branches:
