@@ -1,0 +1,30 @@
+{
+  "name": "@pieceowater-dev/lotof.lib.broadcaster",
+  "version": "1.0.0",
+  "description": "Hello world",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pieceowater-dev/lotof.lib.broadcaster.git"
+  },
+  "author": "pieceowater-dev",
+  "license": "MIT",
+  "keywords": [
+    "pieceowater"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://github.com/pieceowater-dev",
+  "scripts": {
+    "build": "tsc"
+  },
+  "publishConfig": {
+    "directory": "dist"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.11",
+    "typescript": "^5.5.3"
+  }
+}

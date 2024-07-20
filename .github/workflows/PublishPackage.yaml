@@ -1,0 +1,89 @@
+name: Publish package to NPM
+permissions:
+  contents: write
+on:
+  push:
+    branches: [main]
+
+jobs:
+  npm:
+    name: Publish package to GitHub Packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache dependencies
+        uses: actions/cache@v3.3.2
+        timeout-minutes: 2
+        with:
+          path: |
+            ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+        continue-on-error: true
+
+      - name: Install dependencies
+        timeout-minutes: 2
+        run: npm install
+
+      - name: Get latest package version
+        id: ver
+        run: |
+          GITHUB_ORG=$(echo $GITHUB_REPOSITORY | cut -d'/' -f1 | tr '[:upper:]' '[:lower:]')
+          GITHUB_REPO=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2 | tr '[:upper:]' '[:lower:]')
+          PACKAGE_NAME="@${GITHUB_ORG}/${GITHUB_REPO}"
+
+          PACKAGE_VERSION=$(npm show $PACKAGE_NAME version)
+          echo "Latest version of $PACKAGE_NAME is $PACKAGE_VERSION"
+          
+          
+          # Update package.json version without creating a Git tag
+          npm version --no-git-tag-version $PACKAGE_VERSION || true
+          
+          # Get the current version
+          current_version=$(node -p "require('./package.json').version")
+          
+          # Split version into major, minor, and patch parts
+          IFS='.' read -r -a version_parts <<< "$current_version"
+          major="${version_parts[0]}"
+          minor="${version_parts[1]}"
+          patch="${version_parts[2]}"
+          
+          # Increment the version based on your condition
+          if [ $patch -lt 99 ]; then
+            # If patch is less than 99, increment patch
+            npm version patch --no-git-tag-version
+          elif [ $minor -lt 9 ]; then
+            # If minor is less than 9, increment minor
+            npm version minor --no-git-tag-version
+          else
+            # Otherwise, increment major
+            npm version major --no-git-tag-version
+          fi
+          
+          
+          version=$(node -p "require('./package.json').version")
+          echo "v=$version" >> $GITHUB_OUTPUT
+
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        timeout-minutes: 2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+        with:
+          tag_name: ${{ steps.ver.outputs.v }}
+          release_name: Release v${{ steps.ver.outputs.v }}
+          draft: false
+          prerelease: false
+
+      - name: Build Package
+        timeout-minutes: 2
+        run: npm run build
+
+      - name: NPM Publish
+        timeout-minutes: 2
+        run: npm pkg fix &&
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc &&
+          npm publish --access public
