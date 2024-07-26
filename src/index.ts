@@ -3,10 +3,10 @@ import { ConfigService } from '@nestjs/config';
 import { Transport, MicroserviceOptions } from '@nestjs/microservices';
 
 export interface PCWTNestClientMicroservicePreset {
-  portEnvVar: string;
+  portEnvVar: string | 'PORT';
   microservices: Array<{
     transport: Transport;
-    urlEnvVars: string[];
+    urlEnvVars: string[] | ['MQ_URL'];
     queue: string;
   }>;
 }
