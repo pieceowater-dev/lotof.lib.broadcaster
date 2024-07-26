@@ -28,6 +28,7 @@
     "typescript": "^5.5.3"
   },
   "dependencies": {
+    "@nestjs/config": "^3.2.3",
     "@nestjs/microservices": "^10.3.10"
   }
 }
