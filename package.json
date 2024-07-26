@@ -26,5 +26,8 @@
   "devDependencies": {
     "@types/node": "^20.14.11",
     "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "@nestjs/microservices": "^10.3.10"
   }
 }
