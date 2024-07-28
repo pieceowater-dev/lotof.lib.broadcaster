@@ -1,7 +1,2 @@
-import { LotOfClientProxy } from './rabbit/LotOfClientProxy'
-import { bootstrap } from "./bootstrap";
-
-export = {
-  LotOfClientProxy,
-  bootstrap
-}
+export * from './bootstrap'
+export * from './rabbit/LotOfClientProxy'
