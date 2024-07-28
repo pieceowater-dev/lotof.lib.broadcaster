@@ -11,17 +11,17 @@
   "keywords": [
     "pieceowater"
   ],
-  "main": "src/index.js",
-  "types": "src/index.d.ts",
+  "main": "index.js",
+  "types": "index.d.ts",
   "files": [
-    "dist"
+    "src"
   ],
   "homepage": "https://github.com/pieceowater-dev",
   "scripts": {
     "build": "tsc"
   },
   "publishConfig": {
-    "directory": "src"
+    "directory": ""
   },
   "devDependencies": {
     "@types/node": "^20.14.11",
