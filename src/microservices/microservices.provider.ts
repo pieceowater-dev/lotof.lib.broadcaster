@@ -1,10 +1,10 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { catchError, throwError, timeout } from 'rxjs';
 
 @Injectable()
-export class MicroservicesProvider {
-  constructor(@Inject('TEMPLATE_SERVICE') private client: ClientProxy) {}
+export abstract class MicroservicesProvider {
+  protected constructor(private client: ClientProxy) {}
 
   sendWithTimeout<TResult, TInput>(
     pattern: any,
