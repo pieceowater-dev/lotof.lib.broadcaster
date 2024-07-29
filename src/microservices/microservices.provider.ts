@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { catchError, throwError, timeout } from 'rxjs';
 
+/**
+ * extends this class
+ * */
 @Injectable()
 export abstract class MicroservicesProvider {
   protected constructor(private client: ClientProxy) {}
