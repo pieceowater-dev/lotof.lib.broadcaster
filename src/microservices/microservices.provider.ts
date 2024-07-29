@@ -19,14 +19,30 @@ export abstract class MicroservicesProvider {
    * @param pattern - The pattern to identify the message handler.
    * @param data - The data to send to the microservice.
    * @param timeoutMs - The timeout in milliseconds. Default is 3000.
+   * @param log - Boolean, log data that sent
    * @returns An Observable that emits the result of the message or an error if the request times out or fails.
    */
   sendWithTimeout<TResult, TInput>(
     pattern: any,
     data: TInput,
     timeoutMs: number = 3000,
+    log: boolean = false,
   ) {
-    return this.client.send<TResult, TInput>(pattern, data).pipe(
+    const enhancedData = {
+      ...data,
+      meta: {
+        timeout: timeoutMs,
+        timestamp: Math.floor(Date.now() / 1000),
+      },
+    };
+
+    if (log) {
+      console.log(
+        `Sending message with pattern: "${pattern}" and data: ${JSON.stringify(enhancedData)}`,
+      );
+    }
+
+    return this.client.send<TResult, TInput>(pattern, enhancedData).pipe(
       timeout(timeoutMs),
       catchError((err) => {
         if (err.name === 'TimeoutError') {
