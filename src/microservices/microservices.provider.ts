@@ -3,12 +3,24 @@ import { ClientProxy } from '@nestjs/microservices';
 import { catchError, throwError, timeout } from 'rxjs';
 
 /**
- * extends this class
- * */
+ * Abstract class that provides a method to send messages to a microservice with a timeout mechanism.
+ * Extend this class to create services that communicate with microservices.
+ */
 @Injectable()
 export abstract class MicroservicesProvider {
+  /**
+   * Constructor to inject the ClientProxy.
+   * @param client - The ClientProxy instance used to send messages to a microservice.
+   */
   protected constructor(protected client: ClientProxy) {}
 
+  /**
+   * Sends a message to a microservice with a specified timeout.
+   * @param pattern - The pattern to identify the message handler.
+   * @param data - The data to send to the microservice.
+   * @param timeoutMs - The timeout in milliseconds. Default is 3000.
+   * @returns An Observable that emits the result of the message or an error if the request times out or fails.
+   */
   sendWithTimeout<TResult, TInput>(
     pattern: any,
     data: TInput,
