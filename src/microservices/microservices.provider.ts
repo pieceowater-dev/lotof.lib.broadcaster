@@ -7,7 +7,7 @@ import { catchError, throwError, timeout } from 'rxjs';
  * */
 @Injectable()
 export abstract class MicroservicesProvider {
-  protected constructor(private client: ClientProxy) {}
+  protected constructor(protected client: ClientProxy) {}
 
   sendWithTimeout<TResult, TInput>(
     pattern: any,
