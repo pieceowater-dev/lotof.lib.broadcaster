@@ -1,2 +1,2 @@
 export * from './bootstrap'
-export * from './rabbit/LotOfClientProxy'
+export * from './microservices/microservices.provider'

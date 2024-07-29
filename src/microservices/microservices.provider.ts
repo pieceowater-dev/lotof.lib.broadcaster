@@ -1,13 +1,17 @@
+import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { catchError, Observable, throwError, timeout } from 'rxjs';
+import { catchError, throwError, timeout } from 'rxjs';
 
-export abstract class LotOfClientProxy extends ClientProxy {
-  sendWithTimeout<TResult = any, TInput = any>(
+@Injectable()
+export class MicroservicesProvider {
+  constructor(@Inject('TEMPLATE_SERVICE') private client: ClientProxy) {}
+
+  sendWithTimeout<TResult, TInput>(
     pattern: any,
     data: TInput,
     timeoutMs: number = 3000,
-  ): Observable<TResult> {
-    return super.send<TResult, TInput>(pattern, data).pipe(
+  ) {
+    return this.client.send<TResult, TInput>(pattern, data).pipe(
       timeout(timeoutMs),
       catchError((err) => {
         if (err.name === 'TimeoutError') {
