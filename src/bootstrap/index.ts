@@ -1,6 +1,8 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory} from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Transport, MicroserviceOptions } from '@nestjs/microservices';
+import {ValidationPipeOptions} from "./validation/options";
 
 /**
  * Interface representing the configuration preset for PCWT Nest Client Microservice.
@@ -16,6 +18,7 @@ export interface PCWTNestClientMicroservicePreset {
     urlEnvVars: string[] | ['MQ_URL'];
     queue: string;
   }>;
+  validation?: ValidationPipeOptions;
 }
 
 
@@ -29,6 +32,8 @@ export interface PCWTNestClientMicroservicePreset {
 export async function bootstrap(appModule: any, config: PCWTNestClientMicroservicePreset): Promise<boolean> {
   const app = await NestFactory.create(appModule);
   const configService = app.get(ConfigService);
+
+  app.useGlobalPipes(new ValidationPipe(config.validation));
 
   // Retrieve the port from the environment variable or use the default value (3000)
   // noinspection TypeScriptValidateTypes
