@@ -5,6 +5,6 @@ import {Observable, throwError} from "rxjs";
 @Catch(ServiceError)
 export class ExceptionFilter implements RpcExceptionFilter<ServiceError> {
   catch(exception: ServiceError, host: ArgumentsHost): Observable<any> {
-    return throwError(() => exception);
+    return throwError(() => exception.getError());
   }
 }
