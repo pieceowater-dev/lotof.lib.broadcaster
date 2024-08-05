@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { catchError, throwError, timeout } from 'rxjs';
-import {ServiceError} from "../utils/ServiceError";
+import {ServiceError} from "../errorHandler/ServiceError";
 
 /**
  * Abstract class that provides a method to send messages to a microservice with a timeout mechanism.
