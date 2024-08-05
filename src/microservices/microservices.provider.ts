@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { catchError, throwError, timeout } from 'rxjs';
+import {ServiceError} from "../utils/ServiceError";
 
 /**
  * extends this class
@@ -17,12 +18,13 @@ export abstract class MicroservicesProvider {
     return this.client.send<TResult, TInput>(pattern, data).pipe(
       timeout(timeoutMs),
       catchError((err) => {
+          console.log('original error',err)
         if (err.name === 'TimeoutError') {
           console.error(`Timeout error: ${err.message}`);
+          return throwError(() => new Error('Request timed out'));
         } else {
-          console.error(`Error: ${err.message}`);
+          return throwError(() => new Error('Request failed'));
         }
-        return throwError(() => new Error('Request timed out or failed'));
       }),
     );
   }
