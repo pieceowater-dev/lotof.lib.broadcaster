@@ -49,7 +49,7 @@ export abstract class MicroservicesProvider {
         if (err.name === 'TimeoutError') {
           console.error(`Timeout error: ${err.message}`);
           return throwError(() => new Error('Request timed out'));
-        } else if(err.name === ServiceError.name) {
+        } else if(err.name === ServiceError.error) {
           return throwError(() => new Error(err.message));
         } else {
           return throwError(() => new Error('Request failed'));

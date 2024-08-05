@@ -1,10 +1,10 @@
 export class ServiceError extends Error {
 
-	public static name = 'ServiceError'
+	public static error = 'ServiceError'
 
 	getError(){
 		return {
-			name: ServiceError.name,
+			name: ServiceError.error,
 			message: this.message
 		}
 	}
