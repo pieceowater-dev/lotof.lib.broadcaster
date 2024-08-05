@@ -46,7 +46,7 @@ export abstract class MicroservicesProvider {
     return this.client.send<TResult, TInput>(pattern, enhancedData).pipe(
       timeout(timeoutMs),
       catchError((err) => {
-          console.log('original error',err)
+         console.log('original error', err)
         if (err.name === 'TimeoutError') {
           console.error(`Timeout error: ${err.message}`);
           return throwError(() => new Error('Request timed out'));
