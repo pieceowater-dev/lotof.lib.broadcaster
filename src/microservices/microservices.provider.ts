@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { catchError, throwError, timeout } from 'rxjs';
-import {ServiceError} from "../errorHandler/ServiceError";
+import {ServiceError} from "../errorHandler";
 
 /**
  * Abstract class that provides a method to send messages to a microservice with a timeout mechanism.
@@ -46,10 +46,11 @@ export abstract class MicroservicesProvider {
     return this.client.send<TResult, TInput>(pattern, enhancedData).pipe(
       timeout(timeoutMs),
       catchError((err) => {
-         console.log('original error', err)
         if (err.name === 'TimeoutError') {
           console.error(`Timeout error: ${err.message}`);
           return throwError(() => new Error('Request timed out'));
+        } else if(err.name === ServiceError.name) {
+          return throwError(() => new Error(err.message));
         } else {
           return throwError(() => new Error('Request failed'));
         }
