@@ -17,7 +17,6 @@ export async function bootstrap(appModule: any, config: PCWTNestClientMicroservi
   const configService = app.get(ConfigService);
 
   app.useGlobalPipes(new ValidationPipe(config.validation));
-  app.useGlobalPipes(new ServiceTimeoutPipe())
 
   // Retrieve the port from the environment variable or use the default value (3000)
   // noinspection TypeScriptValidateTypes
