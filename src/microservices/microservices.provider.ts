@@ -33,7 +33,7 @@ export abstract class MicroservicesProvider {
       ...data,
       meta: {
         timeout: timeoutMs,
-        timestamp: Math.floor(Date.now() / 1000),
+        timestamp: Date.now(),
       },
     };
 

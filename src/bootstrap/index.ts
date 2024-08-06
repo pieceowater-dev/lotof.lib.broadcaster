@@ -1,26 +1,9 @@
 import { NestFactory} from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Transport, MicroserviceOptions } from '@nestjs/microservices';
-import {ValidationPipeOptions} from "./validation/options";
-
-/**
- * Interface representing the configuration preset for PCWT Nest Client Microservice.
- *
- * @interface PCWTNestClientMicroservicePreset
- * @property {string} portEnvVar - The environment variable for the port. Default is 'PORT'.
- * @property {Array<{transport: Transport, urlEnvVars: string[], queue: string}>} microservices - The microservices configuration array.
- */
-export interface PCWTNestClientMicroservicePreset {
-  portEnvVar: string | 'PORT';
-  microservices: Array<{
-    transport: Transport;
-    urlEnvVars: string[] | ['MQ_URL'];
-    queue: string;
-  }>;
-  validation?: ValidationPipeOptions;
-}
-
+import { MicroserviceOptions } from '@nestjs/microservices';
+import { PCWTNestClientMicroservicePreset } from './types/PCWTNestClientMicroservicePreset';
+import {ServiceTimeoutPipe} from "../microservices/microservices.timeout.pipe";
 
 /**
  * Bootstraps the NestJS application with the given module and configuration preset.
@@ -46,6 +29,8 @@ export async function bootstrap(appModule: any, config: PCWTNestClientMicroservi
       // noinspection TypeScriptValidateTypes
       return configService.get<string>(envUrl);
     });
+
+    app.useGlobalPipes(new ServiceTimeoutPipe())
 
     // Connect the microservice with the provided options
     app.connectMicroservice<MicroserviceOptions>({
