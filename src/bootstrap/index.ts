@@ -17,6 +17,7 @@ export async function bootstrap(appModule: any, config: PCWTNestClientMicroservi
   const configService = app.get(ConfigService);
 
   app.useGlobalPipes(new ValidationPipe(config.validation));
+  app.useGlobalPipes(new ServiceTimeoutPipe())
 
   // Retrieve the port from the environment variable or use the default value (3000)
   // noinspection TypeScriptValidateTypes
@@ -29,8 +30,6 @@ export async function bootstrap(appModule: any, config: PCWTNestClientMicroservi
       // noinspection TypeScriptValidateTypes
       return configService.get<string>(envUrl);
     });
-
-    app.useGlobalPipes(new ServiceTimeoutPipe())
 
     // Connect the microservice with the provided options
     app.connectMicroservice<MicroserviceOptions>({
