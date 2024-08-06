@@ -3,7 +3,6 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { MicroserviceOptions } from '@nestjs/microservices';
 import { PCWTNestClientMicroservicePreset } from './types/PCWTNestClientMicroservicePreset';
-import {ServiceTimeoutPipe} from "../microservices/microservices.timeout.pipe";
 
 /**
  * Bootstraps the NestJS application with the given module and configuration preset.
