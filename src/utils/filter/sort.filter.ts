@@ -1,4 +1,9 @@
+export enum FilterSortByEnum {
+  ASC = 'ASC',
+  DESC = 'DESC',
+}
+
 export class Sort<T> {
-  by?: 'ASC' | 'DESC' = 'ASC';
+  by?: FilterSortByEnum = 'DESC';
   field?: keyof T;
 }
