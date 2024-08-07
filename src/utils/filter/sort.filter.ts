@@ -4,6 +4,6 @@ export enum FilterSortByEnum {
 }
 
 export class Sort<T> {
-  by?: FilterSortByEnum = 'DESC';
+  by?: FilterSortByEnum = FilterSortByEnum.DESC;
   field?: keyof T;
 }
