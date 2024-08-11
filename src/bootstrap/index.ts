@@ -44,7 +44,7 @@ export async function bootstrap(appModule: any, config: PCWTNestClientMicroservi
 
   // Start all microservices and listen on the specified port and host
   await app.startAllMicroservices();
-  await app.listen(port, '127.0.0.1');
+  await app.listen(port, '0.0.0.0');
 
   // Log the application URL
   console.log(`Application is running on: ${await app.getUrl()}`);
