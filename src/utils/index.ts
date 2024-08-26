@@ -1,2 +1,3 @@
 export * from './filter';
-export * from './pagination';
+export * from './pagination/toPaginated';
+export * from './pagination/entity.pagination';
