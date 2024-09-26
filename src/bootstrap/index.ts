@@ -36,7 +36,7 @@ export async function bootstrap(appModule: any, config: PCWTNestClientMicroservi
         urls: urls,
         queue: svc.queue,
         queueOptions: {
-          durable: false,
+          durable: true,
         },
       },
     } as MicroserviceOptions);
